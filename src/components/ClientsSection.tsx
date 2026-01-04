@@ -2,25 +2,25 @@ import { Star } from 'lucide-react';
 
 const testimonials = [
   {
-    name: 'Rahul Sharma',
-    company: 'TechGadgets India',
-    avatar: 'RS',
+    name: 'Vikram Mehta',
+    company: 'GreenLeaf Organics',
+    avatar: 'VM',
     rating: 5,
-    text: 'DealsPro has transformed our product visibility on Amazon. Our ratings improved by 40% within 3 months!',
+    text: 'Working with their creator network helped us reach health-conscious customers authentically. Our organic traffic doubled!',
   },
   {
-    name: 'Priya Patel',
-    company: 'Fashion Hub',
-    avatar: 'PP',
+    name: 'Sneha Reddy',
+    company: 'Urban Style Co',
+    avatar: 'SR',
     rating: 5,
-    text: 'The influencer marketing service connected us with the perfect audience. Sales increased significantly.',
+    text: 'The quality of influencer matches was impressive. We found creators who genuinely loved our products.',
   },
   {
-    name: 'Amit Kumar',
-    company: 'Home Essentials',
-    avatar: 'AK',
+    name: 'Karan Joshi',
+    company: 'TechWare Solutions',
+    avatar: 'KJ',
     rating: 5,
-    text: 'Professional team, great results. Their reputation management service is worth every penny.',
+    text: 'Transparent reporting and real results. Our product reviews went from sparse to substantial in weeks.',
   },
 ];
 
@@ -31,10 +31,10 @@ const ClientsSection = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Clients
+            What our partners say
           </h2>
           <p className="text-lg text-muted-foreground">
-            Our customers make us great.
+            Hear from brands who have grown with us.
           </p>
         </div>
 

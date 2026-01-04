@@ -13,7 +13,7 @@ const HeroSection = () => {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border border-border hover:bg-secondary/80 transition-colors"
           >
             <span className="px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-xs font-semibold">New</span>
-            <span className="text-sm text-muted-foreground">See our journey and what's new at DealsPro</span>
+            <span className="text-sm text-muted-foreground">Discover how we help brands grow with authentic reviews</span>
             <ArrowRight className="w-4 h-4 text-muted-foreground" />
           </Link>
         </div>
@@ -22,12 +22,12 @@ const HeroSection = () => {
           {/* Left Content */}
           <div className="animate-slide-up">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
-              Connecting brands with{' '}
-              <span className="gradient-text">right audience.</span>
+              Grow your brand with{' '}
+              <span className="gradient-text">authentic voices.</span>
             </h1>
 
             <p className="text-lg text-muted-foreground mb-8 max-w-xl">
-              We are a technology-driven premier provider of Online Reputation Management services in India.
+              We bridge the gap between emerging brands and trusted content creators to build genuine customer trust and drive sales.
             </p>
 
             {/* CTA Buttons */}

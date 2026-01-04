@@ -8,10 +8,10 @@ const CTASection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Ready to grow your business?
+            Ready to amplify your brand?
           </h2>
           <p className="text-lg opacity-90 mb-8">
-            Join thousands of sellers who trust us for their online reputation management. Get started today and see the difference.
+            Join hundreds of brands building genuine customer trust through authentic creator partnerships. Start your campaign today.
           </p>
 
           <div className="flex flex-wrap justify-center gap-4">

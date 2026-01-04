@@ -10,38 +10,38 @@ import {
 const services = [
   {
     icon: CheckSquare,
-    title: 'Online reputation management',
-    description: 'Enhancing and maintaining a healthy brand reputation on online marketplace.',
+    title: 'Review Management',
+    description: 'Build credibility through verified customer feedback and authentic product reviews.',
     color: 'bg-blue-50 text-blue-600',
   },
   {
     icon: Database,
-    title: 'Web scraping',
-    description: 'Crafting tailored bots for your data needs, including Brand Monitoring solutions.',
+    title: 'Analytics & Insights',
+    description: 'Track your brand performance with real-time data dashboards and actionable insights.',
     color: 'bg-purple-50 text-purple-600',
   },
   {
     icon: Settings,
-    title: 'Business automation',
-    description: 'Auto-assign tasks, send whatsapp messages, and much more. Power up with hundreds of new business tasks.',
+    title: 'Campaign Automation',
+    description: 'Streamline your influencer outreach with smart scheduling and automated follow-ups.',
     color: 'bg-green-50 text-green-600',
   },
   {
     icon: Mail,
-    title: 'Email marketing',
-    description: 'Engage your audience seamlessly and affordably in real-time interactions.',
+    title: 'Creator Outreach',
+    description: 'Connect with vetted creators who align with your brand values and target audience.',
     color: 'bg-orange-50 text-orange-600',
   },
   {
     icon: Users,
-    title: 'Micro Influencer marketing',
-    description: 'Unlock the Power of Micro-Influencers: Amplify Your Reach with Our Magic Touch!',
+    title: 'Influencer Partnerships',
+    description: 'Access our network of trusted micro and nano influencers for genuine product endorsements.',
     color: 'bg-pink-50 text-pink-600',
   },
   {
     icon: Share2,
-    title: 'Affiliate marketing',
-    description: 'Empower Your Business: Partner with Us for Profitable Affiliate Marketing Solutions!',
+    title: 'Performance Marketing',
+    description: 'Drive measurable results with conversion-focused campaigns and transparent ROI tracking.',
     color: 'bg-cyan-50 text-cyan-600',
   },
 ];
@@ -53,10 +53,10 @@ const ServicesSection = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Designed for business teams like yours
+            Everything you need to scale your brand
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Here at DealsPro™ we focus on services where technology, innovation, and capital can unlock long-term value and drive economic growth.
+            From finding the right creators to managing campaigns, we provide end-to-end solutions that turn product mentions into lasting customer relationships.
           </p>
         </div>
 

@@ -15,7 +15,7 @@ const Footer = () => {
               <span className="text-xl font-bold">DealsPro</span>
             </div>
             <p className="text-background/70 text-sm mb-4">
-              Connecting brands with the right audience. Your trusted partner for online reputation management in India.
+              Helping brands grow through authentic creator partnerships and verified customer feedback.
             </p>
             {/* Social Links */}
             <div className="flex gap-3">
@@ -76,7 +76,7 @@ const Footer = () => {
         <div className="border-t border-background/20 mt-8 pt-8 text-center text-sm text-background/50">
           <p>© {new Date().getFullYear()} DealsPro™. All rights reserved.</p>
           <p className="mt-2">
-            Technology-driven Online Reputation Management Services
+            Building brand trust through authentic partnerships
           </p>
         </div>
       </div>
