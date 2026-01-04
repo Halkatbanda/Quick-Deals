@@ -112,7 +112,7 @@ const HeroSection = () => {
             >
               <Link to="/contact">
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button className="btn-primary h-12 px-6 gap-2">
+                  <Button className="btn-secondary h-12 px-6 gap-2">
                     Brand
                     <ArrowRight className="w-4 h-4" />
                   </Button>

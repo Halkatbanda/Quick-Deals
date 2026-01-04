@@ -32,10 +32,10 @@ const AnimatedCounter = ({ value, suffix = '', duration = 2 }: AnimatedCounterPr
 };
 
 const stats = [
-  { value: 50000, suffix: '+', label: 'Authentic reviews generated', icon: '⭐' },
-  { value: 3000, suffix: '+', label: 'Brands served', icon: '🏢' },
-  { value: 500, suffix: '+', label: 'Active creators', icon: '🎬' },
-  { value: 150, suffix: '+', label: 'Product categories', icon: '📦' },
+  // { value: 50000, suffix: '+', label: 'Authentic reviews generated', icon: '🎬' },
+  { value: 500, suffix: '+', label: 'Brands served', icon: '🏢' },
+  { value: 200, suffix: '+', label: 'Active Clients', icon: '⭐' },
+  { value: 80000, suffix: '+', label: 'Projects Worked', icon: '📦' },
 ];
 
 const StatsSection = () => {
@@ -96,7 +96,7 @@ const StatsSection = () => {
         </motion.div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
           {stats.map((stat, index) => (
             <motion.div
               key={index}
