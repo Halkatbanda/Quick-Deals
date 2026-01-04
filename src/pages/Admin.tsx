@@ -10,11 +10,17 @@ import {
   LayoutDashboard,
   Package,
   Settings,
-  LogOut
+  Users,
+  Building2,
+  CheckCircle,
+  XCircle,
+  Clock,
+  Eye
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
 import { 
   getDeals, 
   addDeal, 
@@ -25,10 +31,48 @@ import {
 } from '@/lib/dealsStore';
 import { toast } from 'sonner';
 
+interface InfluencerApplication {
+  id: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  instagram?: string;
+  youtube?: string;
+  twitter?: string;
+  niche: string;
+  followers: string;
+  about?: string;
+  createdAt: string;
+  status: 'pending' | 'approved' | 'rejected';
+}
+
+interface BrandSubmission {
+  id: string;
+  companyName: string;
+  contactName: string;
+  email: string;
+  phone: string;
+  website?: string;
+  productName: string;
+  productCategory: string;
+  productPrice: string;
+  productUrl: string;
+  productDescription: string;
+  reviewType: string;
+  budget: string;
+  additionalInfo?: string;
+  createdAt: string;
+  status: 'pending' | 'approved' | 'rejected';
+}
+
 const Admin = () => {
   const [deals, setDeals] = useState<Deal[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [editingDeal, setEditingDeal] = useState<Deal | null>(null);
+  const [activeTab, setActiveTab] = useState<'deals' | 'influencers' | 'brands'>('deals');
+  const [influencers, setInfluencers] = useState<InfluencerApplication[]>([]);
+  const [brandSubmissions, setBrandSubmissions] = useState<BrandSubmission[]>([]);
+  const [selectedItem, setSelectedItem] = useState<InfluencerApplication | BrandSubmission | null>(null);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -42,10 +86,62 @@ const Admin = () => {
 
   useEffect(() => {
     loadDeals();
+    loadInfluencers();
+    loadBrandSubmissions();
   }, []);
 
   const loadDeals = () => {
     setDeals(getDeals());
+  };
+
+  const loadInfluencers = () => {
+    const stored = localStorage.getItem('influencer_referrals');
+    if (stored) {
+      setInfluencers(JSON.parse(stored));
+    }
+  };
+
+  const loadBrandSubmissions = () => {
+    const stored = localStorage.getItem('brand_submissions');
+    if (stored) {
+      setBrandSubmissions(JSON.parse(stored));
+    }
+  };
+
+  const updateInfluencerStatus = (id: string, status: 'approved' | 'rejected') => {
+    const updated = influencers.map(inf => 
+      inf.id === id ? { ...inf, status } : inf
+    );
+    setInfluencers(updated);
+    localStorage.setItem('influencer_referrals', JSON.stringify(updated));
+    toast.success(`Influencer ${status === 'approved' ? 'approved' : 'rejected'}`);
+  };
+
+  const updateBrandStatus = (id: string, status: 'approved' | 'rejected') => {
+    const updated = brandSubmissions.map(sub => 
+      sub.id === id ? { ...sub, status } : sub
+    );
+    setBrandSubmissions(updated);
+    localStorage.setItem('brand_submissions', JSON.stringify(updated));
+    toast.success(`Brand submission ${status === 'approved' ? 'approved' : 'rejected'}`);
+  };
+
+  const deleteInfluencer = (id: string) => {
+    if (confirm('Delete this application?')) {
+      const updated = influencers.filter(inf => inf.id !== id);
+      setInfluencers(updated);
+      localStorage.setItem('influencer_referrals', JSON.stringify(updated));
+      toast.success('Application deleted');
+    }
+  };
+
+  const deleteBrandSubmission = (id: string) => {
+    if (confirm('Delete this submission?')) {
+      const updated = brandSubmissions.filter(sub => sub.id !== id);
+      setBrandSubmissions(updated);
+      localStorage.setItem('brand_submissions', JSON.stringify(updated));
+      toast.success('Submission deleted');
+    }
   };
 
   const resetForm = () => {
@@ -143,18 +239,33 @@ const Admin = () => {
         </div>
 
         <nav className="space-y-2">
-          <a href="#" className="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary text-primary-foreground">
-            <LayoutDashboard className="w-5 h-5" />
-            Dashboard
-          </a>
-          <a href="#" className="flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-secondary transition-colors">
+          <button 
+            onClick={() => setActiveTab('deals')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${activeTab === 'deals' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:bg-secondary'}`}
+          >
             <Package className="w-5 h-5" />
-            All Deals
-          </a>
-          <a href="#" className="flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-secondary transition-colors">
-            <Settings className="w-5 h-5" />
-            Settings
-          </a>
+            Deals
+          </button>
+          <button 
+            onClick={() => setActiveTab('influencers')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${activeTab === 'influencers' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:bg-secondary'}`}
+          >
+            <Users className="w-5 h-5" />
+            Influencers
+            {influencers.filter(i => i.status === 'pending').length > 0 && (
+              <Badge variant="destructive" className="ml-auto">{influencers.filter(i => i.status === 'pending').length}</Badge>
+            )}
+          </button>
+          <button 
+            onClick={() => setActiveTab('brands')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${activeTab === 'brands' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:bg-secondary'}`}
+          >
+            <Building2 className="w-5 h-5" />
+            Brand Submissions
+            {brandSubmissions.filter(b => b.status === 'pending').length > 0 && (
+              <Badge variant="destructive" className="ml-auto">{brandSubmissions.filter(b => b.status === 'pending').length}</Badge>
+            )}
+          </button>
         </nav>
 
         <div className="absolute bottom-6 left-6 right-6">
@@ -172,17 +283,27 @@ const Admin = () => {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">Admin Dashboard</h1>
-            <p className="text-muted-foreground">Manage your deals and generate URLs</p>
+            <h1 className="text-2xl font-bold text-foreground">
+              {activeTab === 'deals' && 'Manage Deals'}
+              {activeTab === 'influencers' && 'Influencer Applications'}
+              {activeTab === 'brands' && 'Brand Submissions'}
+            </h1>
+            <p className="text-muted-foreground">
+              {activeTab === 'deals' && 'Create and manage your deals'}
+              {activeTab === 'influencers' && 'Review and approve influencer applications'}
+              {activeTab === 'brands' && 'Review product submission requests from brands'}
+            </p>
           </div>
-          <Button onClick={() => setShowForm(true)} className="btn-primary gap-2">
-            <Plus className="w-4 h-4" />
-            Add New Deal
-          </Button>
+          {activeTab === 'deals' && (
+            <Button onClick={() => setShowForm(true)} className="btn-primary gap-2">
+              <Plus className="w-4 h-4" />
+              Add New Deal
+            </Button>
+          )}
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-8">
           <div className="bg-card rounded-xl p-6 shadow-card">
             <p className="text-muted-foreground text-sm">Total Deals</p>
             <p className="text-3xl font-bold text-foreground">{deals.length}</p>
@@ -192,11 +313,18 @@ const Admin = () => {
             <p className="text-3xl font-bold text-success">{deals.filter(d => d.isActive).length}</p>
           </div>
           <div className="bg-card rounded-xl p-6 shadow-card">
-            <p className="text-muted-foreground text-sm">Categories</p>
-            <p className="text-3xl font-bold text-primary">{categories.length}</p>
+            <p className="text-muted-foreground text-sm">Influencer Applications</p>
+            <p className="text-3xl font-bold text-primary">{influencers.length}</p>
+          </div>
+          <div className="bg-card rounded-xl p-6 shadow-card">
+            <p className="text-muted-foreground text-sm">Brand Submissions</p>
+            <p className="text-3xl font-bold text-primary">{brandSubmissions.length}</p>
           </div>
         </div>
 
+        {/* Deals Tab */}
+        {activeTab === 'deals' && (
+          <>
         {/* Add/Edit Form */}
         {showForm && (
           <div className="bg-card rounded-xl p-6 shadow-card mb-8 animate-slide-up">
@@ -409,6 +537,194 @@ const Admin = () => {
             </div>
           )}
         </div>
+          </>
+        )}
+
+        {/* Influencers Tab */}
+        {activeTab === 'influencers' && (
+          <div className="bg-card rounded-xl shadow-card overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-secondary/50">
+                  <tr>
+                    <th className="text-left px-6 py-4 text-sm font-medium text-muted-foreground">Influencer</th>
+                    <th className="text-left px-6 py-4 text-sm font-medium text-muted-foreground">Niche</th>
+                    <th className="text-left px-6 py-4 text-sm font-medium text-muted-foreground">Followers</th>
+                    <th className="text-left px-6 py-4 text-sm font-medium text-muted-foreground">Status</th>
+                    <th className="text-right px-6 py-4 text-sm font-medium text-muted-foreground">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {influencers.map((inf) => (
+                    <tr key={inf.id} className="hover:bg-secondary/30 transition-colors">
+                      <td className="px-6 py-4">
+                        <div>
+                          <p className="font-medium text-foreground">{inf.fullName}</p>
+                          <p className="text-xs text-muted-foreground">{inf.email}</p>
+                          <p className="text-xs text-muted-foreground">{inf.phone}</p>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-muted-foreground">{inf.niche}</td>
+                      <td className="px-6 py-4 text-muted-foreground">{inf.followers}</td>
+                      <td className="px-6 py-4">
+                        <Badge variant={inf.status === 'approved' ? 'default' : inf.status === 'rejected' ? 'destructive' : 'secondary'}>
+                          {inf.status === 'pending' && <Clock className="w-3 h-3 mr-1" />}
+                          {inf.status === 'approved' && <CheckCircle className="w-3 h-3 mr-1" />}
+                          {inf.status === 'rejected' && <XCircle className="w-3 h-3 mr-1" />}
+                          {inf.status}
+                        </Badge>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center justify-end gap-2">
+                          <Button variant="ghost" size="icon" onClick={() => setSelectedItem(inf)} title="View Details">
+                            <Eye className="w-4 h-4" />
+                          </Button>
+                          {inf.status === 'pending' && (
+                            <>
+                              <Button variant="ghost" size="icon" onClick={() => updateInfluencerStatus(inf.id, 'approved')} title="Approve" className="text-success hover:text-success">
+                                <CheckCircle className="w-4 h-4" />
+                              </Button>
+                              <Button variant="ghost" size="icon" onClick={() => updateInfluencerStatus(inf.id, 'rejected')} title="Reject" className="text-destructive hover:text-destructive">
+                                <XCircle className="w-4 h-4" />
+                              </Button>
+                            </>
+                          )}
+                          <Button variant="ghost" size="icon" onClick={() => deleteInfluencer(inf.id)} className="text-destructive hover:text-destructive" title="Delete">
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {influencers.length === 0 && (
+              <div className="text-center py-12">
+                <Users className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                <p className="text-muted-foreground">No influencer applications yet.</p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Brands Tab */}
+        {activeTab === 'brands' && (
+          <div className="bg-card rounded-xl shadow-card overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-secondary/50">
+                  <tr>
+                    <th className="text-left px-6 py-4 text-sm font-medium text-muted-foreground">Brand/Product</th>
+                    <th className="text-left px-6 py-4 text-sm font-medium text-muted-foreground">Category</th>
+                    <th className="text-left px-6 py-4 text-sm font-medium text-muted-foreground">Budget</th>
+                    <th className="text-left px-6 py-4 text-sm font-medium text-muted-foreground">Status</th>
+                    <th className="text-right px-6 py-4 text-sm font-medium text-muted-foreground">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {brandSubmissions.map((sub) => (
+                    <tr key={sub.id} className="hover:bg-secondary/30 transition-colors">
+                      <td className="px-6 py-4">
+                        <div>
+                          <p className="font-medium text-foreground">{sub.productName}</p>
+                          <p className="text-xs text-muted-foreground">{sub.companyName}</p>
+                          <p className="text-xs text-muted-foreground">{sub.email}</p>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-muted-foreground">{sub.productCategory}</td>
+                      <td className="px-6 py-4 text-muted-foreground">{sub.budget}</td>
+                      <td className="px-6 py-4">
+                        <Badge variant={sub.status === 'approved' ? 'default' : sub.status === 'rejected' ? 'destructive' : 'secondary'}>
+                          {sub.status === 'pending' && <Clock className="w-3 h-3 mr-1" />}
+                          {sub.status === 'approved' && <CheckCircle className="w-3 h-3 mr-1" />}
+                          {sub.status === 'rejected' && <XCircle className="w-3 h-3 mr-1" />}
+                          {sub.status}
+                        </Badge>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center justify-end gap-2">
+                          <Button variant="ghost" size="icon" onClick={() => setSelectedItem(sub)} title="View Details">
+                            <Eye className="w-4 h-4" />
+                          </Button>
+                          <a href={sub.productUrl} target="_blank" rel="noopener noreferrer">
+                            <Button variant="ghost" size="icon" title="View Product">
+                              <ExternalLink className="w-4 h-4" />
+                            </Button>
+                          </a>
+                          {sub.status === 'pending' && (
+                            <>
+                              <Button variant="ghost" size="icon" onClick={() => updateBrandStatus(sub.id, 'approved')} title="Approve" className="text-success hover:text-success">
+                                <CheckCircle className="w-4 h-4" />
+                              </Button>
+                              <Button variant="ghost" size="icon" onClick={() => updateBrandStatus(sub.id, 'rejected')} title="Reject" className="text-destructive hover:text-destructive">
+                                <XCircle className="w-4 h-4" />
+                              </Button>
+                            </>
+                          )}
+                          <Button variant="ghost" size="icon" onClick={() => deleteBrandSubmission(sub.id)} className="text-destructive hover:text-destructive" title="Delete">
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {brandSubmissions.length === 0 && (
+              <div className="text-center py-12">
+                <Building2 className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                <p className="text-muted-foreground">No brand submissions yet.</p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Detail Modal */}
+        {selectedItem && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setSelectedItem(null)}>
+            <div className="bg-card rounded-xl p-6 max-w-lg w-full max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+              {'fullName' in selectedItem ? (
+                <>
+                  <h3 className="text-xl font-bold mb-4">Influencer Details</h3>
+                  <div className="space-y-3 text-sm">
+                    <p><strong>Name:</strong> {selectedItem.fullName}</p>
+                    <p><strong>Email:</strong> {selectedItem.email}</p>
+                    <p><strong>Phone:</strong> {selectedItem.phone}</p>
+                    <p><strong>Niche:</strong> {selectedItem.niche}</p>
+                    <p><strong>Followers:</strong> {selectedItem.followers}</p>
+                    {selectedItem.instagram && <p><strong>Instagram:</strong> @{selectedItem.instagram}</p>}
+                    {selectedItem.youtube && <p><strong>YouTube:</strong> {selectedItem.youtube}</p>}
+                    {selectedItem.twitter && <p><strong>Twitter:</strong> @{selectedItem.twitter}</p>}
+                    {selectedItem.about && <p><strong>About:</strong> {selectedItem.about}</p>}
+                    <p><strong>Applied:</strong> {new Date(selectedItem.createdAt).toLocaleDateString()}</p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h3 className="text-xl font-bold mb-4">Brand Submission Details</h3>
+                  <div className="space-y-3 text-sm">
+                    <p><strong>Company:</strong> {selectedItem.companyName}</p>
+                    <p><strong>Contact:</strong> {selectedItem.contactName}</p>
+                    <p><strong>Email:</strong> {selectedItem.email}</p>
+                    <p><strong>Phone:</strong> {selectedItem.phone}</p>
+                    {selectedItem.website && <p><strong>Website:</strong> {selectedItem.website}</p>}
+                    <p><strong>Product:</strong> {selectedItem.productName}</p>
+                    <p><strong>Category:</strong> {selectedItem.productCategory}</p>
+                    <p><strong>Price:</strong> ₹{selectedItem.productPrice}</p>
+                    <p><strong>Review Type:</strong> {selectedItem.reviewType}</p>
+                    <p><strong>Budget:</strong> {selectedItem.budget}</p>
+                    <p><strong>Description:</strong> {selectedItem.productDescription}</p>
+                    {selectedItem.additionalInfo && <p><strong>Additional Info:</strong> {selectedItem.additionalInfo}</p>}
+                    <p><strong>Submitted:</strong> {new Date(selectedItem.createdAt).toLocaleDateString()}</p>
+                  </div>
+                </>
+              )}
+              <Button className="w-full mt-6" onClick={() => setSelectedItem(null)}>Close</Button>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );

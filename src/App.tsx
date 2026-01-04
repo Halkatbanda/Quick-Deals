@@ -13,6 +13,7 @@ import Admin from "./pages/Admin";
 import Services from "./pages/Services";
 import Testimonials from "./pages/Testimonials";
 import Referral from "./pages/Referral";
+import BrandOnboarding from "./pages/BrandOnboarding";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
           <Route path="/services" element={<Services />} />
           <Route path="/testimonials" element={<Testimonials />} />
           <Route path="/referral" element={<Referral />} />
+          <Route path="/brand-onboarding" element={<BrandOnboarding />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
