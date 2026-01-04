@@ -1,7 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Zap, Moon, Sun } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
@@ -125,15 +124,6 @@ const Navbar = () => {
                 )}
               </AnimatePresence>
             </motion.button>
-
-            {/* Admin Link */}
-            <Link to="/admin">
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <Button size="sm" className="rounded-xl shadow-lg shadow-primary/20">
-                  Dashboard
-                </Button>
-              </motion.div>
-            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -197,25 +187,12 @@ const Navbar = () => {
                     </Link>
                   </motion.div>
                 ))}
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: navLinks.length * 0.05 }}
-                >
-                  <Link
-                    to="/admin"
-                    className="py-3 px-4 rounded-xl text-foreground block hover:bg-secondary"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Dashboard
-                  </Link>
-                </motion.div>
                 <motion.button
                   onClick={() => setIsDark(!isDark)}
                   className="py-3 px-4 rounded-xl text-foreground text-left flex items-center gap-3 hover:bg-secondary"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: (navLinks.length + 1) * 0.05 }}
+                  transition={{ delay: navLinks.length * 0.05 }}
                 >
                   {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                   {isDark ? 'Light Mode' : 'Dark Mode'}
