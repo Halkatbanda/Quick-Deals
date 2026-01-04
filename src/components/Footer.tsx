@@ -120,8 +120,8 @@ const Footer = () => {
               <h3 className="font-semibold mb-4 text-lg">Contact Us</h3>
               <ul className="space-y-4 text-sm text-background/70">
                 {[
-                  { icon: Mail, text: 'support@dealspro.com' },
-                  { icon: Phone, text: '+91 98765 43210' },
+                  { icon: Mail, text: 'support@yesdeals.com' },
+                  { icon: Phone, text: '+91 81870 85691' },
                   { icon: MapPin, text: 'Mumbai, India' },
                 ].map((item, index) => (
                   <li key={index} className="flex items-center gap-3 group">
