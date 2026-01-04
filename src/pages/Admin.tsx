@@ -15,7 +15,9 @@ import {
   CheckCircle,
   XCircle,
   Clock,
-  Eye
+  Eye,
+  LayoutGrid,
+  List
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -30,6 +32,7 @@ import {
   type Deal 
 } from '@/lib/dealsStore';
 import { toast } from 'sonner';
+import BrandProfileCard from '@/components/BrandProfileCard';
 
 interface InfluencerApplication {
   id: string;
@@ -608,77 +611,29 @@ const Admin = () => {
           </div>
         )}
 
-        {/* Brands Tab */}
+        {/* Brands Tab - Profile Cards View */}
         {activeTab === 'brands' && (
-          <div className="bg-card rounded-xl shadow-card overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-secondary/50">
-                  <tr>
-                    <th className="text-left px-6 py-4 text-sm font-medium text-muted-foreground">Brand/Product</th>
-                    <th className="text-left px-6 py-4 text-sm font-medium text-muted-foreground">Category</th>
-                    <th className="text-left px-6 py-4 text-sm font-medium text-muted-foreground">Budget</th>
-                    <th className="text-left px-6 py-4 text-sm font-medium text-muted-foreground">Status</th>
-                    <th className="text-right px-6 py-4 text-sm font-medium text-muted-foreground">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
-                  {brandSubmissions.map((sub) => (
-                    <tr key={sub.id} className="hover:bg-secondary/30 transition-colors">
-                      <td className="px-6 py-4">
-                        <div>
-                          <p className="font-medium text-foreground">{sub.productName}</p>
-                          <p className="text-xs text-muted-foreground">{sub.companyName}</p>
-                          <p className="text-xs text-muted-foreground">{sub.email}</p>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 text-muted-foreground">{sub.productCategory}</td>
-                      <td className="px-6 py-4 text-muted-foreground">{sub.budget}</td>
-                      <td className="px-6 py-4">
-                        <Badge variant={sub.status === 'approved' ? 'default' : sub.status === 'rejected' ? 'destructive' : 'secondary'}>
-                          {sub.status === 'pending' && <Clock className="w-3 h-3 mr-1" />}
-                          {sub.status === 'approved' && <CheckCircle className="w-3 h-3 mr-1" />}
-                          {sub.status === 'rejected' && <XCircle className="w-3 h-3 mr-1" />}
-                          {sub.status}
-                        </Badge>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center justify-end gap-2">
-                          <Button variant="ghost" size="icon" onClick={() => setSelectedItem(sub)} title="View Details">
-                            <Eye className="w-4 h-4" />
-                          </Button>
-                          <a href={sub.productUrl} target="_blank" rel="noopener noreferrer">
-                            <Button variant="ghost" size="icon" title="View Product">
-                              <ExternalLink className="w-4 h-4" />
-                            </Button>
-                          </a>
-                          {sub.status === 'pending' && (
-                            <>
-                              <Button variant="ghost" size="icon" onClick={() => updateBrandStatus(sub.id, 'approved')} title="Approve" className="text-success hover:text-success">
-                                <CheckCircle className="w-4 h-4" />
-                              </Button>
-                              <Button variant="ghost" size="icon" onClick={() => updateBrandStatus(sub.id, 'rejected')} title="Reject" className="text-destructive hover:text-destructive">
-                                <XCircle className="w-4 h-4" />
-                              </Button>
-                            </>
-                          )}
-                          <Button variant="ghost" size="icon" onClick={() => deleteBrandSubmission(sub.id)} className="text-destructive hover:text-destructive" title="Delete">
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            {brandSubmissions.length === 0 && (
-              <div className="text-center py-12">
-                <Building2 className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-muted-foreground">No brand submissions yet.</p>
+          <>
+            {brandSubmissions.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {brandSubmissions.map((brand) => (
+                  <BrandProfileCard
+                    key={brand.id}
+                    brand={brand}
+                    onApprove={(id) => updateBrandStatus(id, 'approved')}
+                    onReject={(id) => updateBrandStatus(id, 'rejected')}
+                    onDelete={deleteBrandSubmission}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="bg-card rounded-xl shadow-card p-12 text-center">
+                <Building2 className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-foreground mb-2">No brand submissions yet</h3>
+                <p className="text-muted-foreground">Brand submissions will appear here as profile cards.</p>
               </div>
             )}
-          </div>
+          </>
         )}
 
         {/* Detail Modal */}
