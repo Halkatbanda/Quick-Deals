@@ -1,29 +1,31 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Search, Menu, X, ShoppingBag } from 'lucide-react';
-import { useState } from 'react';
+import { Menu, X, Zap, Moon, Sun } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [isDark, setIsDark] = useState(false);
   const location = useLocation();
 
   const navLinks = [
     { name: 'Home', path: '/' },
-    { name: 'Categories', path: '/categories' },
-    { name: 'Stores', path: '/stores' },
-    { name: 'Contact', path: '/contact' },
+    { name: 'Testimonials', path: '/testimonials' },
+    { name: 'Services', path: '/services' },
+    { name: 'Clients', path: '/stores' },
+    { name: 'Contact us', path: '/contact' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (isDark) {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
     }
-  };
+  }, [isDark]);
 
   return (
     <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
@@ -32,9 +34,12 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-              <ShoppingBag className="w-6 h-6 text-primary-foreground" />
+              <Zap className="w-6 h-6 text-primary-foreground" />
             </div>
-            <span className="text-xl font-bold gradient-text">DealsPro</span>
+            <div className="flex flex-col">
+              <span className="text-xl font-bold text-foreground tracking-tight">DEALSPRO</span>
+              <span className="text-[10px] text-muted-foreground -mt-1 tracking-widest">THINK • CREATE • DELIVER</span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -43,33 +48,32 @@ const Navbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`nav-link ${isActive(link.path) ? 'nav-link-active' : ''}`}
+                className={`text-sm font-medium transition-colors hover:text-primary ${
+                  isActive(link.path) ? 'text-primary' : 'text-muted-foreground'
+                }`}
               >
                 {link.name}
               </Link>
             ))}
           </div>
 
-          {/* Search Bar */}
-          <form onSubmit={handleSearch} className="hidden md:flex items-center gap-2">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder="Search deals..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 w-64"
-              />
-            </div>
-          </form>
+          {/* Right Side */}
+          <div className="hidden md:flex items-center gap-4">
+            {/* Theme Toggle */}
+            <button
+              onClick={() => setIsDark(!isDark)}
+              className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center hover:bg-secondary/80 transition-colors"
+            >
+              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
 
-          {/* Admin Link */}
-          <Link to="/admin" className="hidden md:block">
-            <Button variant="outline" size="sm">
-              Admin
-            </Button>
-          </Link>
+            {/* Admin Link */}
+            <Link to="/admin">
+              <Button size="sm">
+                Dashboard
+              </Button>
+            </Link>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
@@ -83,18 +87,6 @@ const Navbar = () => {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-border animate-fade-in">
-            <form onSubmit={handleSearch} className="mb-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="Search deals..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 w-full"
-                />
-              </div>
-            </form>
             <div className="flex flex-col gap-2">
               {navLinks.map((link) => (
                 <Link
@@ -111,8 +103,15 @@ const Navbar = () => {
                 className="py-2 px-4 rounded-lg text-foreground"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Admin Panel
+                Dashboard
               </Link>
+              <button
+                onClick={() => setIsDark(!isDark)}
+                className="py-2 px-4 rounded-lg text-foreground text-left flex items-center gap-2"
+              >
+                {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                {isDark ? 'Light Mode' : 'Dark Mode'}
+              </button>
             </div>
           </div>
         )}
