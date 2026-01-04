@@ -1,8 +1,8 @@
 const stats = [
-  { value: '70K+', label: 'Organic feedbacks delivered' },
-  { value: '5K+', label: 'Clients' },
-  { value: '100+', label: 'Product Tested' },
-  { value: '200+', label: 'Categories' },
+  { value: '50K+', label: 'Authentic reviews generated' },
+  { value: '3K+', label: 'Brands served' },
+  { value: '500+', label: 'Active creators' },
+  { value: '150+', label: 'Product categories' },
 ];
 
 const StatsSection = () => {
@@ -12,10 +12,10 @@ const StatsSection = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Transformation by the numbers
+            Results that speak for themselves
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Numbers don't lie. Our tech-driven approach ensures your online reputation stays pristine. Trust us to safeguard your brand's digital presence.
+            Our platform has helped hundreds of brands build trust and credibility through genuine creator partnerships and verified customer feedback.
           </p>
         </div>
 
@@ -38,7 +38,7 @@ const StatsSection = () => {
 
         {/* Disclaimer */}
         <p className="text-center text-sm text-muted-foreground mt-8">
-          * Our numbers reflect a year-long composite of data, showcasing our consistent performance and reliability.
+          * Data reflects cumulative metrics across all active campaigns and partnerships.
         </p>
       </div>
     </section>
