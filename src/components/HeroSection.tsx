@@ -120,7 +120,7 @@ const HeroSection = () => {
               </Link>
               <Link to="/referral">
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button variant="outline" className="h-12 px-6 gap-2 border-2 hover:border-primary hover:text-primary transition-colors">
+                  <Button variant="outline" className="h-12 px-6 gap-2 border-2 hover:border-primary hover:bg-primary/5 transition-colors">
                     <Video className="w-4 h-4" />
                     Blogger/Influencer
                   </Button>
