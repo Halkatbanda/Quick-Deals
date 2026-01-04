@@ -65,7 +65,7 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link, index) => (
               <motion.div
                 key={link.path}
@@ -75,7 +75,7 @@ const Navbar = () => {
               >
                 <Link
                   to={link.path}
-                  className={`relative px-4 py-2 text-sm font-medium transition-colors rounded-lg hover:bg-secondary ${
+                  className={`relative px-3 py-2 text-sm font-medium transition-colors rounded-lg hover:bg-secondary whitespace-nowrap ${
                     isActive(link.path) ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
@@ -128,7 +128,7 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <motion.button
-            className="lg:hidden p-2 rounded-xl hover:bg-secondary transition-colors"
+            className="md:hidden p-2 rounded-xl hover:bg-secondary transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             whileTap={{ scale: 0.9 }}
           >
@@ -160,7 +160,7 @@ const Navbar = () => {
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
-              className="lg:hidden py-4 border-t border-border overflow-hidden"
+              className="md:hidden py-4 border-t border-border overflow-hidden"
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
