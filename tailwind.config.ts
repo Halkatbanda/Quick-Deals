@@ -14,7 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Outfit', 'Inter', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -99,9 +99,10 @@ export default {
         "slide-up": "slide-up 0.5s ease-out",
       },
       boxShadow: {
-        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-        'card-hover': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-        'button': '0 4px 14px 0 hsla(199, 89%, 48%, 0.39)',
+        'card': '0 4px 20px -4px hsla(262, 40%, 30%, 0.08)',
+        'card-hover': '0 20px 40px -8px hsla(262, 50%, 30%, 0.15)',
+        'button': '0 4px 20px 0 hsla(262, 83%, 58%, 0.4)',
+        'glow': '0 0 40px hsla(262, 83%, 58%, 0.3)',
       },
     },
   },
