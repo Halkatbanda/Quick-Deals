@@ -35,13 +35,6 @@ const About = () => {
     { value: '98%', label: 'Client Satisfaction' },
   ];
 
-  const team = [
-    { name: 'Vikram Mehta', role: 'Founder & CEO', initials: 'VM' },
-    { name: 'Sneha Rao', role: 'Head of Partnerships', initials: 'SR' },
-    { name: 'Karan Joshi', role: 'Creative Director', initials: 'KJ' },
-    { name: 'Priya Sharma', role: 'Operations Lead', initials: 'PS' },
-  ];
-
   return (
     <Layout>
       {/* Hero Section */}
@@ -186,46 +179,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* Team */}
-      <section className="py-16 md:py-24 bg-secondary/30">
-        <div className="container mx-auto px-4">
-          <motion.div
-            className="text-center mb-12 md:mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Meet Our Team</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              The passionate people behind DealsPro
-            </p>
-          </motion.div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {team.map((member, index) => (
-              <motion.div
-                key={index}
-                className="glass-card p-6 text-center group"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -5 }}
-              >
-                <motion.div
-                  className="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto mb-4 text-white text-xl font-bold"
-                  whileHover={{ scale: 1.1 }}
-                >
-                  {member.initials}
-                </motion.div>
-                <h3 className="text-lg font-semibold mb-1">{member.name}</h3>
-                <p className="text-muted-foreground text-sm">{member.role}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
@@ -244,7 +197,7 @@ const About = () => {
               <div className="flex flex-wrap justify-center gap-4">
                 <Link to="/contact">
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <Button className="btn-primary h-12 px-8 gap-2">
+                    <Button className="btn-primary h-12 px-8 gap-2 hover:text-white">
                       Get Started <ArrowRight className="w-4 h-4" />
                     </Button>
                   </motion.div>
