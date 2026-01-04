@@ -114,7 +114,7 @@ const BrandsShowcase = () => {
           transition={{
             duration: 8,
             repeat: Infinity,
-            ease: 'easeInOut',
+            ease: 'easeInOut' as const,
           }}
         />
         <motion.div
@@ -126,7 +126,7 @@ const BrandsShowcase = () => {
           transition={{
             duration: 8,
             repeat: Infinity,
-            ease: 'easeInOut',
+            ease: 'easeInOut' as const,
           }}
         />
       </div>
@@ -145,7 +145,7 @@ const BrandsShowcase = () => {
             initial={{ scale: 0 }}
             whileInView={{ scale: 1 }}
             viewport={{ once: true }}
-            transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
+            transition={{ type: 'spring' as const, stiffness: 200, delay: 0.2 }}
           >
             Trusted Partners
           </motion.span>
